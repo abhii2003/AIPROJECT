@@ -1,4 +1,8 @@
-
+class TSPSolver {
+    constructor(graphManager) {
+        this.graphManager = graphManager;
+        this.steps = [];
+    }
 
     solveTSP() {
         if (this.graphManager.nodes.length === 0) {
