@@ -37,7 +37,56 @@ class TSPSolver {
         return edgeList;
     }
     //using DP
+    solveTSPUsingDP(edgeList) {
+        const n = this.graphManager.nodes.length;
+        const dp = Array(1 << n).fill().map(() => Array(n).fill(Infinity));
+        const parent = Array(1 << n).fill().map(() => Array(n).fill(null));
 
+        // Initialize base case
+        for (let i = 0; i < n; i++) {
+            dp[1 << i][i] = 0;
+            this.steps.push({ step: `Initialization`, subset: [i + 1], energy: 0 }); // Track initialization
+        }
+
+        // Fill DP table
+        for (let mask = 1; mask < (1 << n); mask++) {
+            for (let u = 0; u < n; u++) {
+                if (!(mask & (1 << u))) continue;
+                for (let v = 0; v < n; v++) {
+                    if (mask & (1 << v)) continue;
+                    const newMask = mask | (1 << v);
+                    const energy = dp[mask][u] + edgeList[u + 1][v + 1];
+                    if (energy < dp[newMask][v]) {
+                        dp[newMask][v] = energy;
+                        parent[newMask][v] = u;
+                        this.steps.push({ step: `Transition from ${u + 1} to ${v + 1}`, subset: [...Array.from(new Set([...this.getSubset(newMask), v + 1]))], energy }); // Track step
+                    }
+                }
+            }
+        }
+
+        // Find optimal solution
+        let minEnergy = Infinity;
+        let lastNode = -1;
+        for (let i = 0; i < n; i++) {
+            if (dp[(1 << n) - 1][i] < minEnergy) {
+                minEnergy = dp[(1 << n) - 1][i];
+                lastNode = i;
+            }
+        }
+
+        // Reconstruct path
+        const path = [];
+        let mask = (1 << n) - 1;
+        while (lastNode !== null) {
+            path.unshift(lastNode + 1);
+            const temp = lastNode;
+            lastNode = parent[mask][lastNode];
+            mask ^= (1 << temp);
+        }
+
+        return { path, energy: minEnergy };
+    }
     //using branch and bound 
 
     solveTSPUsingBnB(edgeList) {
