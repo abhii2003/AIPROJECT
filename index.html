@@ -11,43 +11,93 @@
 </head>
 
 <body>
+    <div>
 
-    <h1>PROTEIN FOLDING TSP SOLVER </h1>
 
-    <div id="graph-container"></div>
+        <h1>PROTEIN FOLDING TSP SOLVER (Hydrophilic and Hydrophobic) </h1>
+        <h2 style="padding-left: 50px;color: #29517e;;">Why is Protein Folding Necessary?</h2>
+        <p style="padding-left: 50px;">
+            Protein folding is essential because proteins must adopt specific three-dimensional structures to perform
+            their
+            biological functions effectively. Misfolded proteins can result in diseases such as <span
+                class="highlight">Alzheimer's</span> or <span class="highlight">Parkinson's</span>.
+        </p>
 
-    <div class="controls">
-        <label for="sequence">Protein Sequence:</label>
-        <input type="text" id="sequence" placeholder="Enter amino acid sequence (e.g., HPPHPH)">
-        <button onclick="graphManager.createProteinGraph()">Create Protein Graph</button>
+        <h2 style="padding-left: 50px;color: #29517e;;">Role of Hydrophilic and Hydrophobic Parts</h2>
+        <ul style="padding-left: 50px;">
+            <li><strong>Hydrophilic Regions:</strong> These water-attracting parts orient themselves towards the
+                protein's
+                exterior, ensuring solubility and interaction with the environment.</li>
+            <li><strong>Hydrophobic Regions:</strong> These water-repelling parts cluster in the protein's core,
+                creating a
+                stable interior structure.</li>
+        </ul>
+        <p style="padding-left: 50px;">
+            The interplay between these forces drives the folding process, forming the protein's functional shape.
+        </p>
 
-        <label for="algorithm">Choose Algorithm:</label>
-        <select id="algorithm">
-            <option value="dp">Dynamic Programming</option>
-            <option value="bnb">Branch and Bound</option>
-        </select>
+        <h2 style="padding-left: 50px;color: #29517e;;">Using TSP to Solve Protein Folding</h2>
+        <p style="padding-left: 50px;">The Traveling Salesman Problem (TSP) can be applied to protein folding as
+            follows:
+        </p>
+        <ul style="padding-left: 50px;">
+            <li><strong>Representation:</strong> Amino acids are treated as nodes or cities, and interaction energy is
+                the
+                distance between them.</li>
+            <li><strong>Objective:</strong> Find a path (folding sequence) that minimizes the total energy cost while
+                meeting physical constraints.</li>
+        </ul>
 
-        <button onclick="tspSolver.solveTSP()">Solve TSP</button>
+        <h2 style="padding-left: 50px;color: #29517e;">What Do We Achieve?</h2>
+        <p style="padding-left: 50px;">
+            By using TSP approximations, researchers can:
+        </p>
+        <ul style="padding-left: 50px;">
+            <li>Predict the native structure of proteins based on their sequence.</li>
+            <li>Understand the energy landscape of folding pathways.</li>
+            <li>Design drugs and synthetic proteins by modeling folding and stability.</li>
+        </ul>
+
+        <p style="padding-left: 50px;">
+            Protein folding is a fascinating process combining biology and computational models like TSP to unlock its
+            mysteries.
+        </p>
+
+        <div id="graph-container"></div>
+
+        <div class="controls">
+            <label for="sequence">Protein Sequence:</label>
+            <input type="text" id="sequence" placeholder="Enter amino acid sequence (e.g., HPPHPH)">
+            <button onclick="graphManager.createProteinGraph()">Create Protein Graph</button>
+
+            <label for="algorithm">Choose Algorithm:</label>
+            <select id="algorithm">
+                <option value="dp">Dynamic Programming</option>
+                <option value="bnb">Branch and Bound</option>
+            </select>
+
+            <button onclick="tspSolver.solveTSP()">Solve TSP</button>
+
+        </div>
+        <div id="solution"></div>
+
+        <div class="table-result">
+            <h3>Steps and Results</h3>
+            <table id="steps-table">
+                <thead>
+                    <tr>
+                        <th>Step</th>
+                        <th>Subset of Nodes</th>
+                        <th>Cost</th>
+                    </tr>
+                </thead>
+                <tbody id="steps-body">
+                    <!-- Dynamic Rows will be added here -->
+                </tbody>
+            </table>
+        </div>
 
     </div>
-    <div id="solution"></div>
-
-    <div class="table-result">
-        <h3>Steps and Results</h3>
-        <table id="steps-table">
-            <thead>
-                <tr>
-                    <th>Step</th>
-                    <th>Subset of Nodes</th>
-                    <th>Cost</th>
-                </tr>
-            </thead>
-            <tbody id="steps-body">
-                <!-- Dynamic Rows will be added here -->
-            </tbody>
-        </table>
-    </div>
-
     <script src="graphmanager.js"></script>
     <script src="tspsolver.js"></script>
 </body>
